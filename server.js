@@ -5,6 +5,7 @@ const app = express();
 const users = require('./data/users');
 const recipes = require('./data/recipes');
 const ingredients = require('./data/ingredients');
+var cors = require('cors’)
 
 app.locals = {
   title: 'What\'s Cookin API',
@@ -15,6 +16,7 @@ app.locals = {
 
 app.use(cors());
 app.use(express.json());
+app.use(cors())
 
 app.get('/api/v1/users', (req, res) => {
   res.status(200).json(app.locals.users);
@@ -51,10 +53,10 @@ app.post('/api/v1/users', (req, res) => {
 
   if (!pantryToModify && ingredientModification > 0) {
     foundUser.pantry.push({ ingredient: ingredientID, amount: ingredientModification });
-    return res.status(201).json({ 
+    return res.status(201).json({
       message: `${ingredientModification} units of item # ${ingredientID} were added to user ${userID}'s pantry`
     });
-  } 
+  }
 
   if ((pantryToModify && ingredientModification < 0) && (pantryToModify.amount + ingredientModification < 0)) {
     return res.status(422).json({ message: `The user doesn't have enough of this item.`});
