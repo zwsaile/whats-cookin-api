@@ -14,9 +14,14 @@ app.locals = {
   ingredients
 }
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false
+  })
 app.use(express.json());
-app.use(cors())
+
 
 app.get('/data/users.js', (req, res) => {
   res.status(200).json(app.locals.users);
